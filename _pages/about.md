@@ -1,13 +1,38 @@
 ---
+layout: about
 permalink: /
-title: "academicpages is a ready-to-fork GitHub Pages template for academic personal websites"
+title: "About Me"
 excerpt: "About me"
 author_profile: true
+news: true
 redirect_from: 
   - /about/
   - /about.html
 ---
+I am currently a third-year PhD Candidate at University of British Columbia, and my supervisor is Prof.Giuseppe Carenini. My research interest is Automatic Summarization and Discourse Parsing.
 
+Outside of work, I like traveling, dancing (beginner) and watching movies and shows.
+
+Education Experience
+======
+**Ph.D.** - University of British Columbia (2019 - Now)\\
+**M.Sc.** - University of British Columbia (2017 - 2019)\\
+**B.Sc.** - University of Toronto (2013-2017)
+
+Work Experience
+======
+**Research Intern**, Semantic Scholar at AI2 (2021.5-2021.11)\\
+**Teaching Assistant** (CPSC221), University of British Columbia (2017-2018)\\
+**Teaching Assistant** (CSC236,MAT136, etc.), University of Toronto (2016-2017)
+
+
+Service
+======
+Reviewer: ACL 2020, EACL 2021, NAACL 2021, Workshop on New Frontiers in Summarization (2019)\
+Organization Committee Member: NAACL 2021
+
+
+<!-- 
 This is the front page of a website that is powered by the [academicpages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the respository. This template was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then extended to support the kinds of content that academics have: publications, talks, teaching, a portfolio, blog posts, and a dynamically-generated CV. You can fork [this repository](https://github.com/academicpages/academicpages.github.io) right now, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free, with no ads! An older version of this template powers my own personal website at [stuartgeiger.com](http://stuartgeiger.com), which uses [this Github repository](https://github.com/staeiou/staeiou.github.io).
 
 A data-driven personal website
@@ -47,4 +72,4 @@ Example: editing a markdown file for a talk
 
 For more info
 ------
-More info about configuring academicpages can be found in [the guide](https://academicpages.github.io/markdown/). The [guides for the Minimal Mistakes theme](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) (which this theme was forked from) might also be helpful.
+More info about configuring academicpages can be found in [the guide](https://academicpages.github.io/markdown/). The [guides for the Minimal Mistakes theme](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) (which this theme was forked from) might also be helpful. -->

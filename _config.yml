@@ -117,65 +117,96 @@ author:
   wikipedia        :
 
 
-# Reading Files
-include:
-  - .htaccess
-  - _pages
-  - files
-exclude:
-  # - "*.sublime-project"
-  # - "*.sublime-workspace"
-  # - .asset-cache
-  # - .bundle
-  # - .jekyll-assets-cache
-  # - .sass-cache
-  # - CHANGELOG
-  # - Capfile
-  # - Gemfile
-  # - Gruntfile.js
-  # - LICENSE
-  # - README
-  # - Rakefile
-  # - assets/js/_main.js
-  # - assets/js/plugins
-  # - assets/js/vendor
-  # - config
-  # - gulpfile.js
-  # - log
-  # - node_modules
-  # - package.json
-  # - tmp
-  - Gemfile
-  - bin
-  - Gemfile.lock
-  - vendor
-keep_files:
-  - .git
-  - .svn
-  - CNAME
-  - .nojekyll
-encoding: "utf-8"
-markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
+
+
+# # Reading Files
+# include:
+#   - .htaccess
+#   - _pages
+#   - files
+# exclude:
+#   # - "*.sublime-project"
+#   # - "*.sublime-workspace"
+#   # - .asset-cache
+#   # - .bundle
+#   # - .jekyll-assets-cache
+#   # - .sass-cache
+#   # - CHANGELOG
+#   # - Capfile
+#   # - Gemfile
+#   # - Gruntfile.js
+#   # - LICENSE
+#   # - README
+#   # - Rakefile
+#   # - assets/js/_main.js
+#   # - assets/js/plugins
+#   # - assets/js/vendor
+#   # - config
+#   # - gulpfile.js
+#   # - log
+#   # - node_modules
+#   # - package.json
+#   # - tmp
+#   - Gemfile
+#   - bin
+#   - Gemfile.lock
+#   - vendor
+# keep_files:
+#   - .git
+#   - .svn
+#   - CNAME
+#   - .nojekyll
+# encoding: "utf-8"
+# markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
 # Conversion
-markdown: kramdown
-highlighter: rouge
-lsi: false
-excerpt_separator: "\n\n"
-incremental: false
+# markdown: kramdown
+# highlighter: rouge
+# lsi: false
+# excerpt_separator: "\n\n"
+# incremental: false
+
 
 
 # Markdown Processing
+# kramdown:
+#   input: GFM
+#   hard_wrap: false
+#   auto_ids: true
+#   footnote_nr: 1
+#   entity_output: as_char
+#   toc_levels: 1..6
+#   smart_quotes: lsquo,rsquo,ldquo,rdquo
+#   enable_coderay: false
+
+
+
+markdown: kramdown
+highlighter: rouge
+highlight_theme: github  # https://github.com/jwarby/jekyll-pygments-themes
 kramdown:
   input: GFM
-  hard_wrap: false
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
-  enable_coderay: false
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false
+      start_line: 1
+
+# Includes & excludes
+include: ['_pages']
+exclude:
+  - bin
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+keep_files:
+  - CNAME
+  - .nojekyll
+  - .git
+
 
 
 # Collections

@@ -145,6 +145,8 @@ exclude:
   - node_modules
   - package.json
   - tmp
+  - bin
+  - Gemfile.lock
   - vendor
 keep_files:
   - .git

@@ -24,7 +24,8 @@ group :jekyll_plugins do
   # gem 'jekyll-sitemap'
     gem 'hawkins'
   # gem "jekyll-scholar"
-    gem 'jekyll'
+    # gem 'jekyll'
+    gem 'jekyll', '3.7.3'
     gem 'jekyll-archives'
     gem 'jekyll-diagrams'
     gem 'jekyll-email-protect'
@@ -40,5 +41,4 @@ group :jekyll_plugins do
     gem 'unicode_utils'
     gem 'webrick'
     gem "kramdown-parser-gfm"
-    gem 'jekyll', '3.7.3'
 end

@@ -265,20 +265,45 @@ permalink: /:categories/:title/
 timezone: America/Los_Angeles # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 
-# Plugins
+
+# -----------------------------------------------------------------------------
+# Jekyll settings
+# -----------------------------------------------------------------------------
+
+# Plug-ins
 plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
+  - jekyll-archives
+  - jekyll-diagrams
+  - jekyll-email-protect
   - jekyll-feed
-  - jekyll-redirect-from
-# mimic GitHub Pages with --safe
-whitelist:
-  - jekyll-paginate
+  - jekyll-github-metadata
+  - jekyll-paginate-v2
+  - jekyll-responsive-image
+  - jekyll/scholar
   - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
+  - jekyll-target-blank
+  - jekyll-twitter-plugin
   - jemoji
+
+
+# Extras
+github: [metadata]
+
+
+# # Plugins
+# plugins:
+#   - jekyll-paginate
+#   - jekyll-sitemap
+#   - jekyll-gist
+#   - jekyll-feed
+#   - jekyll-redirect-from
+# # mimic GitHub Pages with --safe
+# whitelist:
+#   - jekyll-paginate
+#   - jekyll-sitemap
+#   - jekyll-gist
+#   - jekyll-feed
+#   - jemoji
 
 
 # Archives

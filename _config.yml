@@ -194,9 +194,14 @@ kramdown:
     block:
       line_numbers: false
       start_line: 1
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
 # Includes & excludes
-include: ['_pages']
+include: 
+  - .htaccess
+  - _pages
+  - files
 exclude:
   - bin
   - Gemfile
@@ -220,6 +225,9 @@ collections:
   projects:
     output: true
     permalink: /projects/:path/
+  posts:
+    output: true
+    permalink: /posts/:path/
   # talks:
   #   output: true
   #   permalink: /:collection/:path/

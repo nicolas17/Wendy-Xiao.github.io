@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: archive
 title: Chu-Liu/Edmonds' Algorithm for Max Spanning Tree in Di-graph
 date: 2020-07-10
 description: Introduction and python implementation of the Chu-Liu/Edmonds' algorithm for finding the Maximum/Minimum spanning tree in the directed graphs.
@@ -14,7 +14,7 @@ Given a connected directed graph $$G=\{V,E\}$$ with vertices $$V=\{v_1,v_2,...,v
 The Chu-Liu/Edmonds' algorithm is designed in a recursive manner, to better explain the idea, I'll show the algorithm step-by-step with an example.
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/assets/img/chuliuedmonds/chuliu_g1.png"></p>
+        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/images/chuliuedmonds/chuliu_g1.png"></p>
     </div>
 </div>
 <div class="caption">
@@ -27,7 +27,7 @@ Given the graph shown above, the first step is to decide the start point, i.e. t
 In this case, the root is node 1 and after removing the unnecessary edges, the resulting graph is shown as:
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/assets/img/chuliuedmonds/chuliu_g2.png"></p>
+        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/images/chuliuedmonds/chuliu_g2.png"></p>
     </div>
 </div>
 
@@ -37,7 +37,7 @@ First, we start from the graph $$MG$$ with the maximum incoming edge for each no
 Back to the example, the green edges in the following graph forms the graph $$MG$$, and we can find a circle between node $$2$$ and node $$3$$.
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/assets/img/chuliuedmonds/chuliu_g3.png"></p>
+        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/images/chuliuedmonds/chuliu_g3.png"></p>
     </div>
 </div>
 
@@ -55,7 +55,7 @@ Then there might be multiple edges between $$v_C$$ and other nodes, we only keep
 In this example, there is only one circle formed by node $$2$$ and node $$3$$, so we treat the circle as a new node $$v_C$$, as shown in the left figure below. Then by applying the rules mentioned above, we build the new graph $$G'$$ shown in the left. Apparently there are multiple edges between node $$1,4$$ and node $$v_C$$, then we only keep the one with the highest weight (i.e. the blue edges, and the number in the parenthesis represents the original source/destinition of the edge in the circle).
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/assets/img/chuliuedmonds/chuliu_g4.png"></p>
+        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/images/chuliuedmonds/chuliu_g4.png"></p>
     </div>
 </div>
 
@@ -75,7 +75,7 @@ As shown in the graph below, $$E^t$$ is formed by the red edges in the right fig
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/assets/img/chuliuedmonds/chuliu_g6.png"></p>
+        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/images/chuliuedmonds/chuliu_g6.png"></p>
     </div>
 </div>
 

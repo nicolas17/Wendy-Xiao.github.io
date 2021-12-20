@@ -86,7 +86,8 @@ author:
   location         : "Vancouver, Canada"
   employer         :
   pubmed           : 
-  googlescholar    : 
+  googlescholar    : "https://scholar.google.com/citations?user=xiVBcUIAAAAJ&hl=en"
+  semanticscholar  : "https://www.semanticscholar.org/author/Wen-Xiao/49617120"
   email            : "wendyxiao0609@gmail.com"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
@@ -102,7 +103,7 @@ author:
   instagram        :
   impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
-  linkedin         :
+  linkedin         : "https://www.linkedin.com/in/wen-xiao-563470b7/"
   orcid            : 
   pinterest        :
   soundcloud       :

@@ -28,7 +28,7 @@ Work Experience
 
 Service
 ======
-Reviewer: ACL 2020, EACL 2021, NAACL 2021, Workshop on New Frontiers in Summarization (2019)\
+Reviewer: ACL 2020, EACL 2021, NAACL 2021, Workshop on New Frontiers in Summarization (2019)\\
 Organization Committee Member: NAACL 2021
 
 

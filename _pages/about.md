@@ -31,6 +31,20 @@ Service
 Reviewer: ACL 2020, EACL 2021, NAACL 2021, Workshop on New Frontiers in Summarization (2019)\\
 Organization Committee Member: NAACL 2021
 
+News
+------
+
+- __Feb 24, 2022__: Our paper ‘PRIMERA: Pyramid-based Masked Sentence Pre-training for Multi-document Summarization’ is accepted at the main conference of ACL 2022!
+
+- __Jan 14, 2022__:  I’m honored to be one of 2021 Interns of the Year awardees by AI2! (3 recipients in total)
+
+- __Dec 1, 2021__:  I finish my thesis proposal, and officially become a PhD candidate!
+
+- __Aug 26, 2021__: Our paper ['T3-Vis: visual analytic for Training and fine-Tuning Transformers in NLP'](https://aclanthology.org/2021.emnlp-demo.26/) is accepted at the Demo track of EMNLP 2021!
+
+- __May 10, 2020__: Start my internship at Semantic Scholar, AI2!
+
+
 
 <!-- 
 This is the front page of a website that is powered by the [academicpages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the respository. This template was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then extended to support the kinds of content that academics have: publications, talks, teaching, a portfolio, blog posts, and a dynamically-generated CV. You can fork [this repository](https://github.com/academicpages/academicpages.github.io) right now, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free, with no ads! An older version of this template powers my own personal website at [stuartgeiger.com](http://stuartgeiger.com), which uses [this Github repository](https://github.com/staeiou/staeiou.github.io).

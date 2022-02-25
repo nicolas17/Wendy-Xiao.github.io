@@ -235,13 +235,13 @@ collections:
   # talks:
   #   output: true
   #   permalink: /:collection/:path/
-  news:
-    defaults:
-      layout: post
-    output: true
-    permalink: /news/:path/
+#   news:
+#     defaults:
+#       layout: post
+#     output: true
+#     permalink: /news/:path/
 
-news_limit: 5
+# news_limit: 5
 
 
 # Defaults

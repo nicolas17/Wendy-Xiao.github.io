@@ -32,7 +32,7 @@ Reviewer: ACL 2020, EACL 2021, NAACL 2021, Workshop on New Frontiers in Summariz
 Organization Committee Member: NAACL 2021
 
 News
-------
+======
 
 - __Feb 24, 2022__: Our paper ‘PRIMERA: Pyramid-based Masked Sentence Pre-training for Multi-document Summarization’ is accepted at the main conference of ACL 2022!
 

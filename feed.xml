@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="https://wendy-xiao.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://wendy-xiao.github.io/" rel="alternate" type="text/html" /><updated>2022-04-14T02:43:35-07:00</updated><id>https://wendy-xiao.github.io/feed.xml</id><title type="html">Wen Xiao’s Personal Website</title><subtitle>A personal website for Wen Xiao</subtitle><author><name>Wen Xiao</name><email>wendyxiao0609@gmail.com</email></author><entry><title type="html">Chu-Liu/Edmonds’ Algorithm for Max Spanning Tree in Di-graph</title><link href="https://wendy-xiao.github.io/posts/2020-07-10-chuliuemdond_algorithm/" rel="alternate" type="text/html" title="Chu-Liu/Edmonds’ Algorithm for Max Spanning Tree in Di-graph" /><published>2020-07-10T00:00:00-07:00</published><updated>2020-07-10T00:00:00-07:00</updated><id>https://wendy-xiao.github.io/posts/chuliuemdond_algorithm</id><content type="html" xml:base="https://wendy-xiao.github.io/posts/2020-07-10-chuliuemdond_algorithm/"><![CDATA[<p>In this blog, I will introduce the algorithm to find the maximum spanning tree in the directed graphs - the Chu-Liu/Edmonds’ Algorithm.</p>
+
+<h3 id="problem-definition"><span style="color:blue">Problem Definition</span></h3>
+<p>Given a connected directed graph <script type="math/tex">G=\{V,E\}</script> with vertices <script type="math/tex">V=\{v_1,v_2,...,v_n\}</script> and edges <script type="math/tex">E=\{e_{12},...,e_{ij}\}</script>, in which <script type="math/tex">e_{ij}</script> represents the edge from vertex <script type="math/tex">v_i</script> to <script type="math/tex">v_j</script> with weight <script type="math/tex">w(e_{ij})</script> the goal is to find the maximum spanning tree <script type="math/tex">T=\{V,E^t\}</script> where all the vertices are connected, each node (except the root) has only one incoming edge, and the sum of weights of the edges is the maximum.</p>
+
+<h3 id="a-step-by-step-explanation-of-chu-liuedmonds-algorithm"><span style="color:blue">A Step-by-Step Explanation of Chu-Liu/Edmonds’ Algorithm</span></h3>
+<p>The Chu-Liu/Edmonds’ algorithm is designed in a recursive manner, to better explain the idea, I’ll show the algorithm step-by-step with an example.</p>
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <p align="center"><img class="img-fluid rounded z-depth-1" src="/images/chuliuedmonds/chuliu_g1.png" /></p>
+    </div>
+</div>
+<div class="caption">
+    An example of a fully connected directed graph with four vertices.
+</div>
+
+<h4 id="step-zero">Step Zero</h4>
+<p>Given the graph shown above, the first step is to decide the start point, i.e. the root of the tree. It can be predefined by the user, otherwise, the root is the node with the highest sum of outgoing edges, <script type="math/tex">r=\arg\max_{v_i\in V}\sum_{v_j \in V} e_{ji}</script>. Then as the root can only have the outgoing edges, we remove all the incoming edges of the root.</p>
+
+<p>In this case, the root is node 1 and after removing the unnecessary edges, the resulting graph is shown as:</p>
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <p align="center"><img class="img-fluid rounded z-depth-1" src="/images/chuliuedmonds/chuliu_g2.png" /></p>
+    </div>
+</div>
+
+<h4 id="step-one">Step One</h4>
+<p>First, we start from the graph <script type="math/tex">MG</script> with the maximum incoming edge for each node (other than the root), i.e. for each node <script type="math/tex">v_i</script>, there is only one incoming edge from node <script type="math/tex">\pi(v_i)</script>, denoting <script type="math/tex">e_{\pi(v_i)v_i}</script>, and it is the edge with the maximum weight. If the graph is a tree, then it is the maximum spanning tree, otherwise, the graph contains at least one circle, then we need to break the circles by replacing certain edges with edges outside the graph <script type="math/tex">MG</script>.</p>
+
+<p>Back to the example, the green edges in the following graph forms the graph <script type="math/tex">MG</script>, and we can find a circle between node <script type="math/tex">2</script> and node <script type="math/tex">3</script>.</p>
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <p align="center"><img class="img-fluid rounded z-depth-1" src="/images/chuliuedmonds/chuliu_g3.png" /></p>
+    </div>
+</div>
+
+<h4 id="step-two-recursive-call">Step Two (recursive call)</h4>
+<p>Randomly picking one circle <script type="math/tex">C_{node}=\{v_{c_1},v_{c_2},...v_{c_k}\}</script> in <script type="math/tex">MG</script>, the circle itself is optimal, and we only need to break the circle with the minimum cost. To achieve this, we first build a new graph <script type="math/tex">G'</script> by treating the circle as a new node <script type="math/tex">v_C</script>, and then find the maximum spanning tree <script type="math/tex">A</script> in the new graph <script type="math/tex">G'</script> (recursively run the algorithm on <script type="math/tex">G'</script>).</p>
+
+<p>Now we first decribe the way to build new graph <script type="math/tex">G'=\{V',E'\}</script> with the vertex set <script type="math/tex">V'=V \setminus C\cup\{v_C\}</script>. As for the edges <script type="math/tex">E'</script>, we split them into three cases:</p>
+
+<ol>
+  <li>For edge <script type="math/tex">e_{sd}</script> in <script type="math/tex">E</script>, if <script type="math/tex">s\notin C_{node}</script> and <script type="math/tex">d\in C_{node}</script>, then we add an edge <script type="math/tex">e_{sv_C}'</script> to <script type="math/tex">E'</script> with weight <script type="math/tex">w(e_{sv_C}')=w(e_{sd})-w(e_{\pi(v_d)v_d})</script> (it is a negative value)</li>
+  <li>For edge <script type="math/tex">e_{sd}</script> in <script type="math/tex">E</script>, if <script type="math/tex">s\in C_{node}</script> and <script type="math/tex">d\notin C_{node}</script>, then we add an edge <script type="math/tex">e_{v_Cd}'</script> to <script type="math/tex">E'</script> with weight <script type="math/tex">w(e_{v_C d}')=w(e_{sd})</script></li>
+  <li>For edge <script type="math/tex">e_{sd}</script> in <script type="math/tex">E</script>, if <script type="math/tex">s\notin C_{node}</script> and <script type="math/tex">d\notin C_{node}</script>, then we add an edge <script type="math/tex">e_{sd}'</script> to <script type="math/tex">E'</script> with weight <script type="math/tex">w(e_{sd}')=w(e_{sd})</script></li>
+</ol>
+
+<p>Then there might be multiple edges between <script type="math/tex">v_C</script> and other nodes, we only keep the edge with maximum weight between <script type="math/tex">v_C</script> and each other node.</p>
+
+<p>In this example, there is only one circle formed by node <script type="math/tex">2</script> and node <script type="math/tex">3</script>, so we treat the circle as a new node <script type="math/tex">v_C</script>, as shown in the left figure below. Then by applying the rules mentioned above, we build the new graph <script type="math/tex">G'</script> shown in the left. Apparently there are multiple edges between node <script type="math/tex">1,4</script> and node <script type="math/tex">v_C</script>, then we only keep the one with the highest weight (i.e. the blue edges, and the number in the parenthesis represents the original source/destinition of the edge in the circle).</p>
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <p align="center"><img class="img-fluid rounded z-depth-1" src="/images/chuliuedmonds/chuliu_g4.png" /></p>
+    </div>
+</div>
+
+<p>Then we need to find the maximum spanning tree <script type="math/tex">A</script> for the new graph <script type="math/tex">G'</script>, and it is formed by the edges in red in the figure below.</p>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <p align="center"><img class="img-fluid rounded z-depth-1" src="/assets/img/chuliuedmonds/chuliu_g5.png" /></p>
+    </div>
+</div>
+
+<h4 id="step-three">Step Three</h4>
+<p>Without loss of generality, assume the incoming edge of <script type="math/tex">v_C</script> in <script type="math/tex">A</script> is from node <script type="math/tex">v_s</script> and its corresponding edge in the original graph <script type="math/tex">G</script> is <script type="math/tex">e_{sk}</script>, with <script type="math/tex">v_k \in C_{node}</script>, then the edges of the final tree is  formed by the combination of edges in <script type="math/tex">A</script> (replacing the edges from/to <script type="math/tex">v_C</script> to the original edge) and the edges in the circle without the incoming edge of node <script type="math/tex">v_k</script>.</p>
+
+<p>As shown in the graph below, <script type="math/tex">E^t</script> is formed by the red edges in the right figure.</p>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <p align="center"><img class="img-fluid rounded z-depth-1" src="/images/chuliuedmonds/chuliu_g6.png" /></p>
+    </div>
+</div>
+
+<div class="caption">
+    We got it! Congrats! ^.^
+</div>
+
+<h3 id="python-implementation"><span style="color:blue">Python Implementation</span></h3>
+<p>In this section, I’ll show my python implementation of the algorithm. There must be more efficient implementations, and discussions on improving the implementation are welcome.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+</pre></td><td class="code"><pre><span class="k">def</span> <span class="nf">reverse_graph</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="s">'''Return the reversed graph where g[dst][src]=G[src][dst]'''</span>
+    <span class="n">g</span><span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">G</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">dst</span> <span class="ow">in</span> <span class="n">G</span><span class="p">[</span><span class="n">src</span><span class="p">].</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">dst</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">g</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">g</span><span class="p">[</span><span class="n">dst</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+            <span class="n">g</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="n">src</span><span class="p">]</span><span class="o">=</span><span class="n">G</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="n">dst</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">build_max</span><span class="p">(</span><span class="n">rg</span><span class="p">,</span><span class="n">root</span><span class="p">):</span>
+    <span class="s">'''Find the max in-edge for every node except for the root.'''</span>
+    <span class="n">mg</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dst</span> <span class="ow">in</span> <span class="n">rg</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">dst</span><span class="o">==</span><span class="n">root</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">max_ind</span><span class="o">=-</span><span class="mi">100</span>
+        <span class="n">max_value</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
+        <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">rg</span><span class="p">[</span><span class="n">dst</span><span class="p">].</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">rg</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="n">src</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">max_value</span><span class="p">:</span>
+                <span class="n">max_ind</span> <span class="o">=</span> <span class="n">src</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">rg</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="n">src</span><span class="p">]</span>
+        <span class="n">mg</span><span class="p">[</span><span class="n">dst</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">max_ind</span><span class="p">:</span><span class="n">max_value</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">mg</span>
+
+<span class="k">def</span> <span class="nf">find_circle</span><span class="p">(</span><span class="n">mg</span><span class="p">):</span>
+    <span class="s">'''Return the firse circle if find, otherwise return None'''</span>
+        
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="n">mg</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">visited</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span>
+        <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">stack</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">while</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>
+                    <span class="n">C</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                    <span class="n">n</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mg</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">C</span>
+            <span class="n">visited</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">mg</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">stack</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mg</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="bp">None</span>
+        
+<span class="k">def</span> <span class="nf">chu_liu_edmond</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">root</span><span class="p">):</span>
+    <span class="s">''' G: dict of dict of weights
+            G[i][j] = w means the edge from node i to node j has weight w.
+            Assume the graph is connected and there is at least one spanning tree existing in G.
+        root: the root node, has outgoing edges only.
+    '''</span>
+    <span class="c1"># reversed graph rg[dst][src] = G[src][dst]
+</span>    <span class="n">rg</span> <span class="o">=</span> <span class="n">reverse_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="c1"># root only has out edge
+</span>    <span class="n">rg</span><span class="p">[</span><span class="n">root</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+    <span class="c1"># the maximum edge for each node other than root
+</span>    <span class="n">mg</span> <span class="o">=</span> <span class="n">build_max</span><span class="p">(</span><span class="n">rg</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+    
+    <span class="c1"># check if mg is a tree (contains a circle)
+</span>    <span class="n">C</span> <span class="o">=</span> <span class="n">find_circle</span><span class="p">(</span><span class="n">mg</span><span class="p">)</span>
+    <span class="c1"># if there is no circle, it means mg is what we want
+</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">C</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">reverse_graph</span><span class="p">(</span><span class="n">mg</span><span class="p">)</span>
+    <span class="c1"># Now consider the nodes in the circle C as one new node vc
+</span>    <span class="n">all_nodes</span> <span class="o">=</span> <span class="n">G</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="n">vc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    
+    <span class="c1">#The new graph G_prime with V_prime=V\C+{vc} 
+</span>    <span class="n">V_prime</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">)</span><span class="o">-</span><span class="nb">set</span><span class="p">(</span><span class="n">C</span><span class="p">))</span><span class="o">+</span><span class="p">[</span><span class="n">vc</span><span class="p">]</span>
+    <span class="n">G_prime</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">vc_in_idx</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">vc_out_idx</span><span class="o">=</span><span class="p">{}</span>
+    <span class="c1"># Now add the edges to G_prime
+</span>    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">all_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">G</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># First case: if the source is not in the circle, and the dest is in the circle, i.e. in-edges for C
+</span>            <span class="c1"># Then we only keep one edge from each node that is not in C to the new node vc with the largest difference (G[u][v]-list(mg[v].values())[0])
+</span>            <span class="c1"># To specify, for each node u in V\C, there is an edge between u and vc if and only if there is an edge between u and any node v in C,
+</span>            <span class="c1"># And the weight of edge u-&gt;vc = max_{v in C} (G[u][v] - mg[v].values) The second term represents the weight of max in-edge of v.
+</span>            <span class="c1"># Then we record that the edge u-&gt;vc is originally the edge u-&gt;v with v=argmax_{v in C} (G[u][v] - mg[v].values)
+</span>            
+            <span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">C</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">v</span> <span class="ow">in</span> <span class="n">C</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">G_prime</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">G_prime</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="n">G</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span><span class="o">-</span><span class="nb">list</span><span class="p">(</span><span class="n">mg</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">vc</span> <span class="ow">not</span> <span class="ow">in</span>  <span class="n">G_prime</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">vc</span> <span class="ow">in</span>  <span class="n">G_prime</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="ow">and</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">G_prime</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">vc</span><span class="p">]):</span>
+                    <span class="n">G_prime</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">vc</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span>
+                    <span class="n">vc_in_idx</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="c1"># Second case: if the source is in the circle, but the dest is not in the circle, i.e out-edge for C
+</span>            <span class="c1"># Then we only keep one edge from the new node vc to each node that is not in C
+</span>            <span class="c1"># To specify, for each node v in V\C, there is an edge between vc and v iff there is an edge between any edge u in C and v.
+</span>            <span class="c1"># And the weight of edge vc-&gt;v = max_{u in C} G[u][v] 
+</span>            <span class="c1"># Then we record that the edge vc-&gt;v originally the edge u-&gt;v with u=argmax_{u in C} G[u][v] 
+</span>            <span class="k">elif</span> <span class="p">(</span><span class="n">u</span> <span class="ow">in</span> <span class="n">C</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">C</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">vc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">G_prime</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">G_prime</span><span class="p">[</span><span class="n">vc</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+                <span class="n">w</span> <span class="o">=</span> <span class="n">G</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span>  <span class="n">G_prime</span><span class="p">[</span><span class="n">vc</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">v</span> <span class="ow">in</span>  <span class="n">G_prime</span><span class="p">[</span><span class="n">vc</span><span class="p">]</span> <span class="ow">and</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">G_prime</span><span class="p">[</span><span class="n">vc</span><span class="p">][</span><span class="n">v</span><span class="p">]):</span>
+                    <span class="n">G_prime</span><span class="p">[</span><span class="n">vc</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span>
+                    <span class="n">vc_out_idx</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span>
+            <span class="c1"># Third case: if the source and dest are all not in the circle, then just add the edge to the new graph.
+</span>            <span class="k">elif</span> <span class="p">(</span><span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">C</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">C</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">G_prime</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">G_prime</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+                <span class="n">G_prime</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">G</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span>
+    <span class="c1"># Recursively run the algorihtm on the new graph G_prime
+</span>    <span class="c1"># The result A should be a tree with nodes V\C+vc, then we just need to break the circle C and plug the subtree into A
+</span>    <span class="c1"># To break the circle, we need to use the in-edge of vc, say u-&gt;vc to replace the original selected edge u-&gt;v, 
+</span>    <span class="c1"># where v was the original edge we recorded in the first case above.
+</span>    <span class="c1"># Then if vc has out-edges, we also need to replace them with the original edges, recorded in the second case above.
+</span>    <span class="n">A</span> <span class="o">=</span> <span class="n">chu_liu_edmond</span><span class="p">(</span><span class="n">G_prime</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">all_nodes_A</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">all_nodes_A</span><span class="p">:</span>
+        <span class="c1"># The number of out-edges varies, could be 0 or any number &lt;=|V\C|
+</span>        <span class="k">if</span> <span class="n">src</span><span class="o">==</span><span class="n">vc</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node_in</span> <span class="ow">in</span> <span class="n">A</span><span class="p">[</span><span class="n">src</span><span class="p">].</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">orig_out</span> <span class="o">=</span> <span class="n">vc_out_idx</span><span class="p">[</span><span class="n">node_in</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">orig_out</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">A</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">A</span><span class="p">[</span><span class="n">orig_out</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">A</span><span class="p">[</span><span class="n">orig_out</span><span class="p">][</span><span class="n">node_in</span><span class="p">]</span><span class="o">=</span><span class="n">G</span><span class="p">[</span><span class="n">orig_out</span><span class="p">][</span><span class="n">node_in</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dst</span> <span class="ow">in</span> <span class="n">A</span><span class="p">[</span><span class="n">src</span><span class="p">]:</span>
+                <span class="c1"># There must be only one in-edge to vc.
+</span>                <span class="k">if</span> <span class="n">dst</span><span class="o">==</span><span class="n">vc</span><span class="p">:</span>
+                    <span class="n">orig_in</span> <span class="o">=</span> <span class="n">vc_in_idx</span><span class="p">[</span><span class="n">src</span><span class="p">]</span>
+                    <span class="n">A</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="n">orig_in</span><span class="p">]</span> <span class="o">=</span> <span class="n">G</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="n">orig_in</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">A</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="n">dst</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">A</span><span class="p">[</span><span class="n">vc</span><span class="p">]</span>
+    
+    <span class="c1"># Now add the edges from the circle to the result.
+</span>    <span class="c1"># Remember not to include the one with new in-edge
+</span>    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">!=</span> <span class="n">orig_in</span><span class="p">:</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mg</span><span class="p">[</span><span class="n">node</span><span class="p">].</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">src</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">A</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">A</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">A</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">mg</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="n">src</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">A</span> 
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h3 id="summary"><span style="color:blue">Summary</span></h3>
+
+<p>In this blog, I introduced the traditional algorithm for finding the maximum/minimum spanning tree in the directed graph, and showed a python implementation of the algorithm. The algorithm is often used in the NLP area, especially in the topic like syntactic parsing/discourse parsing. Discussions on the implementation, the algorithm, or the applications are welcome.</p>
+
+<h3 id="reference">Reference</h3>
+<p>[1] <a href="https://en.wikipedia.org/wiki/Edmonds%27_algorithm">https://en.wikipedia.org/wiki/Edmonds%27_algorithm</a>  Wikipedia of Edmonds’ algorithm</p>]]></content><author><name>Wen Xiao</name><email>wendyxiao0609@gmail.com</email></author><summary type="html"><![CDATA[Introduction and python implementation of the Chu-Liu/Edmonds' algorithm for finding the Maximum/Minimum spanning tree in the directed graphs.]]></summary></entry></feed>

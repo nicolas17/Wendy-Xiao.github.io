@@ -63,7 +63,7 @@ Then we need to find the maximum spanning tree $$A$$ for the new graph $$G'$$, a
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/assets/img/chuliuedmonds/chuliu_g5.png"></p>
+        <p align='center'><img class="img-fluid rounded z-depth-1" src="{{ site.baseurl }}/images/chuliuedmonds/chuliu_g5.png"></p>
     </div>
 </div>
 
